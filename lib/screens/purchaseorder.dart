@@ -34,11 +34,58 @@ class _PurchaseOrderState extends State<PurchaseOrder> {
           centerTitle: true,
           title: Text('L10001'),
         ),
-        body: Column(
-          children: [
-            customerdetails,
-            productdetails,
-          ],
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              customerdetails,
+              Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: const <DataColumn>[
+                      DataColumn(label: Text('Brand')),
+                      // DataColumn(label: Text('Description')),
+                      // DataColumn(label: Text('Quantity')),
+                      // DataColumn(label: Text('Unit Price')),
+                      // DataColumn(label: Text('Price')),
+                    ],
+                    rows: <DataRow>[
+                      DataRow(cells: <DataCell>[
+                        DataCell(SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: DropDownField(
+                            enabled: true,
+                            controller: brandselect,
+                            itemsVisibleInDropdown: 2,
+                            items: brands,
+                            onValueChanged: (value) {
+                              setState(() {
+                                selectbrand = value;
+                              });
+                            },
+                          ),
+                        )),
+                        // DataCell(TextField(
+                        //   enabled: false,
+                        //   keyboardType: TextInputType.multiline,
+                        // )),
+                        // DataCell(TextField(
+                        //   keyboardType: TextInputType.number,
+                        // )),
+                        // DataCell(TextField()),
+                        // DataCell(TextField()),
+                      ])
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -126,11 +173,7 @@ Widget productdetails = Container(
               enabled: true,
               controller: brandselect,
               items: brands,
-              onValueChanged: (value) {
-                setState((value) {
-                  selectbrand = value;
-                });
-              },
+              onValueChanged: (value) {},
             ),
           ),
           DataCell(TextField(
@@ -147,6 +190,7 @@ Widget productdetails = Container(
     ),
   ),
 );
+
 final brandselect = TextEditingController();
 String selectbrand = "";
 
